@@ -16,6 +16,9 @@ function ProductDetail() {
   const cartCount = cartStore((state) => state.cartCount);
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/products/${id}`);
@@ -147,26 +150,116 @@ function ProductDetail() {
 
       {relatedProducts.length > 0 && (
         <div className="related-products-section">
-          <h2>Related Products</h2>
-          <div className="related-products-grid">
+          <h2 style={{
+            textAlign: 'center',
+            margin: '2rem 0 1rem',
+            fontSize: '1.5rem',
+            fontWeight: '600'
+          }}>Related Products</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '8px',
+            padding: '0 8px',
+            margin: '0 auto',
+            width: '100%',
+            boxSizing: 'border-box'
+          }}>
             {relatedProducts.map((relatedProduct) => (
-              <div key={relatedProduct._id} className="related-product-card">
-                <Link to={`/product/${relatedProduct._id}`}>
-                  <div className="related-product-image-wrapper">
+              <Link 
+                to={`/product/${relatedProduct._id}`} 
+                key={relatedProduct._id}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  display: 'block'
+                }}
+              >
+                <div style={{
+                  background: '#ffffff',
+                  overflow: 'hidden',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'transform 0.3s ease'
+                }}>
+                  <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    paddingTop: '133%',
+                    overflow: 'hidden'
+                  }}>
                     <img
                       src={relatedProduct.image}
                       alt={relatedProduct.name}
-                      className="related-product-image"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s ease'
+                      }}
                     />
                   </div>
-                  <div className="related-product-info">
-                    <h3>{relatedProduct.name}</h3>
-                    <p className="related-product-price">${relatedProduct.price}</p>
+                  <div style={{
+                    padding: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px'
+                  }}>
+                    <h3 style={{
+                      fontSize: '0.9rem',
+                      fontWeight: '500',
+                      color: '#333',
+                      margin: 0,
+                      lineHeight: '1.2'
+                    }}>{relatedProduct.name}</h3>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginTop: '2px'
+                    }}>
+                      <span style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                        color: '#000'
+                      }}>Rs.{relatedProduct.price}</span>
+                      <span style={{
+                        fontSize: '0.65rem',
+                        color: '#4CAF50'
+                      }}>In Stock: {relatedProduct.stock}</span>
+                    </div>
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
+          <style>
+            {`
+              @media (min-width: 768px) {
+                .related-products-section {
+                  max-width: 1400px;
+                  margin: 0 auto;
+                  padding: 0 20px;
+                }
+                .related-products-section > div {
+                  grid-template-columns: repeat(4, 1fr) !important;
+                  gap: 20px !important;
+                }
+              }
+
+              .related-products-section a:hover > div {
+                transform: translateY(-4px);
+              }
+
+              .related-products-section a:hover img {
+                transform: scale(1.05);
+              }
+            `}
+          </style>
         </div>
       )}
     </div>

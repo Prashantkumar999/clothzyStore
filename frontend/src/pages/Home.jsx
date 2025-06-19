@@ -14,8 +14,8 @@ function Home() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/products');
-        // Get only the first 6 products for the home page
-        setProducts(response.data.slice(0, 6));
+        // Get 10 products for the home page
+        setProducts(response.data.slice(0, 10));
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch products');
@@ -53,57 +53,158 @@ function Home() {
       </section>
 
       {/* Featured Products Section */}
-      <section className="featured-products">
-        <div className="featured-products-container">
-          <h2 className="section-title">All Products</h2>
+      <section className="featured-products" style={{
+        width: '100%',
+        margin: '0 auto'
+      }}>
+        <div className="featured-products-container" style={{
+          width: '100%',
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 8px'
+        }}>
+          <h2 className="section-title" style={{
+            textAlign: 'center',
+            margin: '1rem 0',
+            fontSize: '1.5rem',
+            fontWeight: '600'
+          }}>All Products</h2>
           {loading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
             </div>
           ) : error ? (
             <div className="error-container">
-              <div className="error-message">
-                <div className="error-content">
-                  <div className="error-icon">
-                    <svg viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <p className="error-text">{error}</p>
-                </div>
-              </div>
+              <div className="error-message">{error}</div>
             </div>
           ) : (
-            <div className="products-grid">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '8px',
+              padding: '0',
+              margin: '0 auto',
+              width: '100%',
+              boxSizing: 'border-box'
+            }}>
               {products.map((product) => (
-                <div key={product._id} className="product-card">
-                  <div className="product-image-wrapper">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="product-image"
-                    />
-                    <div className="product-overlay">
-                      <Link to={`/product/${product._id}`} className="product-action-button view-cart">
-                        View Details
-                      </Link>
+                <Link 
+                  to={`/product/${product._id}`} 
+                  key={product._id}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'block'
+                  }}
+                >
+                  <div style={{
+                    background: '#ffffff',
+                    overflow: 'hidden',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'transform 0.3s ease'
+                  }}>
+                    <div style={{
+                      position: 'relative',
+                      width: '100%',
+                      paddingTop: '133%',
+                      overflow: 'hidden'
+                    }}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          transition: 'transform 0.3s ease'
+                        }}
+                      />
+                    </div>
+                    <div style={{
+                      padding: '8px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '2px'
+                    }}>
+                      <h3 style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '500',
+                        color: '#333',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>{product.name}</h3>
+                     
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginTop: '2px'
+                      }}>
+                        <span style={{
+                          fontSize: '0.9rem',
+                          fontWeight: '600',
+                          color: '#000'
+                        }}>Rs.{product.price}</span>
+                        <span style={{
+                          fontSize: '0.65rem',
+                          color: '#4CAF50'
+                        }}>In Stock: {product.stock}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="product-info">
-                    <h3 className="product-name" style={{fontSize: '1.2rem'}}>{product.name}</h3>
-                    <p className="product-description" style={{fontSize: '.8rem'}}>{product.description}</p>
-                    <div className="product-meta">
-                      <span className="product-price" style={{fontSize: '1rem',color: 'black'}} >${product.price}</span>
-                      {product.stock > 0 && (
-                        <span className="product-stock" style={{fontSize: '.8rem'}}>In Stock: {product.stock}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
-         
+          <style>
+            {`
+              @media (min-width: 768px) {
+                .featured-products-container {
+                  width: 100%;
+                  max-width: 1400px;
+                  margin: 0 auto;
+                  padding: 0 20px;
+                }
+                .featured-products-container > div {
+                  grid-template-columns: repeat(5, 1fr) !important;
+                  gap: 20px !important;
+                  padding: 0 !important;
+                }
+              }
+
+              @media (max-width: 767px) {
+                .featured-products-container {
+                  width: 100%;
+                  padding: 0 8px;
+                }
+                .featured-products-container > div {
+                  grid-template-columns: repeat(2, 1fr) !important;
+                  gap: 8px !important;
+                  padding: 0 !important;
+                  box-sizing: border-box !important;
+                }
+                .section-title {
+                  font-size: 1.25rem !important;
+                  margin: 1rem 0 !important;
+                  text-align: center;
+                }
+              }
+
+              /* Hover Effects */
+              .featured-products a:hover > div {
+                transform: translateY(-4px);
+              }
+
+              .featured-products a:hover img {
+                transform: scale(1.05);
+              }
+            `}
+          </style>
         </div>
       </section>
 
