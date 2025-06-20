@@ -1,12 +1,1 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://clothzystore-1.onrender.com/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
-} 
+{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
