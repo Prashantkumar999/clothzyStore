@@ -32,12 +32,12 @@ function Home() {
       <section className="hero">
         <div className="hero-container">
           <div className="hero-content">
-            <h1 className="hero-title">Welcome to Clothzy Store</h1>
-            <p className="hero-description">
+            <h1 className="hero-title" style={{ animation: "slideInUp 0.5s ease-out forwards" }}>Welcome to Clothzy Store</h1>
+            <p className="hero-description" style={{ animation: "slideInUp 0.5s ease-out 0.2s forwards", opacity: 0 }}>
               Discover amazing products at great prices. Shop now and enjoy our
               wide selection of items.
             </p>
-            <div className="hero-buttons">
+            <div className="hero-buttons" style={{ animation: "slideInUp 0.5s ease-out 0.4s forwards", opacity: 0 }}>
               <Link to="/products" className="hero-button primary">
                 Shop Now
               </Link>
@@ -46,7 +46,7 @@ function Home() {
               </Link>
             </div>
           </div>
-          <div className="hero-image">
+          <div className="hero-image" style={{ animation: "fadeIn 1s ease-in-out forwards" }}>
             <img src="https://chlothzy.shop/assets/hero_img-uMuzwHEB.png" alt="Clothzy Hero" />
           </div>
         </div>
