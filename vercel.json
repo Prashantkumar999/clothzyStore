@@ -15,12 +15,12 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/server.js"
+      "source": "/api/:path*",
+      "destination": "https://clothzystore-1.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/dist/index.html"
+      "destination": "/index.html"
     }
   ]
 } 
