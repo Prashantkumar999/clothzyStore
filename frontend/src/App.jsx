@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -14,9 +14,9 @@ import authStore from "../src/store/store.js";
 import Protected from "./components/Protected";
 
 function App() {
-  const isAdmin = () => {
-    const currentUser = authStore((store) => store.currentUser);
+  const currentUser = authStore((store) => store.currentUser);
 
+  const isAdmin = () => {
     return currentUser && currentUser.role === "admin";
   };
 
@@ -31,7 +31,9 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={
+              currentUser ? <Cart /> : <Navigate to="/login" />
+            } />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route

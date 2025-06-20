@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
 import { cartStore } from "../store/store.js";
+import authStore from "../store/store.js";
 
 function Cart() {
+  const currentUser = authStore((state) => state.currentUser);
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -13,6 +16,12 @@ function Cart() {
   const [stockError, setStockError] = useState("");
 
   useEffect(() => {
+    // Redirect to login if user is not authenticated
+    if (!currentUser) {
+      navigate("/login");
+      return;
+    }
+
     const fetchCart = async () => {
       try {
         setLoading(true);
@@ -31,12 +40,17 @@ function Cart() {
         setCartItems(items);
         setLoading(false);
       } catch (err) {
-        setError("Login to view your cart");
+        if (err.response?.status === 401) {
+          setError("Please login to view your cart");
+          navigate("/login");
+        } else {
+          setError("Failed to load cart items");
+        }
         setLoading(false);
       }
     };
     fetchCart();
-  }, []);
+  }, [currentUser, navigate]);
 
   useEffect(() => {
     const newTotal = cartItems.reduce(

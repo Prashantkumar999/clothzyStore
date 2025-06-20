@@ -8,7 +8,11 @@ const store = create(
       currentUser: null,
 
       setCurrentUser: (user) => set({ currentUser: user }),
-      logout: () => set({ currentUser: null }),
+      logout: () => {
+        set({ currentUser: null });
+        // Reset cart count when user logs out
+        cartStore.getState().setCartCount(0);
+      },
     }),
     { name: "auth-storage", storage: createJSONStorage(() => sessionStorage) }
   ) // closing tab aur browser reset the state to null
@@ -24,8 +28,14 @@ export const cartStore = create((set) => ({
       const items = response.data.items || [];
       const count = items.length; // number of different products
       set({ cartCount: count });
-    } catch {
-      set({ cartCount: 0 });
+    } catch (error) {
+      // If user is not authenticated, set cart count to 0
+      if (error.response?.status === 401) {
+        set({ cartCount: 0 });
+      } else {
+        // For other errors, keep the current count
+        console.error("Error fetching cart count:", error);
+      }
     }
   },
 }));

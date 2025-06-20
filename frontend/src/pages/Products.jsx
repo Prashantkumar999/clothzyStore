@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Products.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { cartStore } from "../store/store.js";
+import authStore from "../store/store.js";
 
 function Products() {
+  const currentUser = authStore((state) => state.currentUser);
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -12,6 +15,8 @@ function Products() {
   const [cartItems, setCartItems] = useState([]);
 
   const fetchCart = async () => {
+    if (!currentUser) return;
+    
     try {
       const response = await axios.get('http://localhost:5000/api/cart', { withCredentials: true });
       const items = response.data.items.map(item => ({
@@ -21,7 +26,10 @@ function Products() {
       }));
       setCartItems(items);
     } catch (err) {
-      // Optionally handle error
+      // Handle authentication errors silently
+      if (err.response?.status !== 401) {
+        console.error("Error fetching cart:", err);
+      }
     }
   };
 
@@ -39,9 +47,18 @@ function Products() {
 
     fetchProducts();
     fetchCart();
-  }, []);
+  }, [currentUser]);
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, event) => {
+    event.preventDefault(); // Prevent navigation to product detail
+    
+    if (!currentUser) {
+      setCartMessage('Please login to add items to cart');
+      setTimeout(() => setCartMessage(''), 2000);
+      navigate('/login');
+      return;
+    }
+
     setCartMessage('');
     try {
       await axios.post(

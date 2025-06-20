@@ -69,12 +69,14 @@ function Navbar() {
           </div>
 
           <div className="navbar-right">
-            <Link to="/cart" className="navbar-link cart-icon" style={{ position: 'relative' }}>
-              <ShoppingCartIcon className="icon" />
-              {cartCount > 0 && (
-                <span className="cart-count">{cartCount}</span>
-              )}
-            </Link>
+            {currentUser && (
+              <Link to="/cart" className="navbar-link cart-icon" style={{ position: 'relative' }}>
+                <ShoppingCartIcon className="icon" />
+                {cartCount > 0 && (
+                  <span className="cart-count">{cartCount}</span>
+                )}
+              </Link>
+            )}
 
             {currentUser ? (
               <div className="relative" ref={dropdownRef} style={{ position: 'relative' }}>
