@@ -132,7 +132,11 @@ function Cart() {
         { withCredentials: true }
       );
       setCartItems([]);
-      setCheckoutMessage("Order placed successfully!");
+      cartStore.getState().fetchAndSetCartCount(); 
+      setCheckoutMessage("Order placed successfully! Redirecting to homepage...");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (err) {
       setCheckoutMessage("Failed to place order.");
     }
@@ -163,11 +167,15 @@ function Cart() {
     return (
       <div className="empty-cart">
         <div className="empty-cart-content">
-          <h2>Your Cart is Empty</h2>
-          <p>Looks like you haven't added anything to your cart yet.</p>
-          <a href="/products" className="continue-shopping">
-            Continue Shopping
-          </a>
+          <h2>{checkoutMessage || "Your Cart is Empty"}</h2>
+          {!checkoutMessage && (
+            <>
+              <p>Looks like you haven't added anything to your cart yet.</p>
+              <a href="/products" className="continue-shopping">
+                Continue Shopping
+              </a>
+            </>
+          )}
         </div>
       </div>
     );
