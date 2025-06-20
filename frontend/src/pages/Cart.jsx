@@ -25,7 +25,7 @@ function Cart() {
     const fetchCart = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/cart", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
           withCredentials: true,
         });
         const items = response.data.items.map((item) => ({
@@ -74,11 +74,11 @@ function Cart() {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/cart/update/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/update/${id}`,
         { quantity: newQuantity },
         { withCredentials: true }
       );
-      const response = await axios.get("http://localhost:5000/api/cart", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
         withCredentials: true,
       });
       const items = response.data.items.map((item) => ({
@@ -100,10 +100,10 @@ function Cart() {
 
   const removeItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/cart/remove/${id}`, {
         withCredentials: true,
       });
-      const response = await axios.get("http://localhost:5000/api/cart", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
         withCredentials: true,
       });
       const items = response.data.items.map((item) => ({
@@ -127,7 +127,7 @@ function Cart() {
     setCheckoutMessage("");
     try {
       await axios.post(
-        "http://localhost:5000/api/orders",
+        `${import.meta.env.VITE_API_URL}/api/orders`,
         {},
         { withCredentials: true }
       );

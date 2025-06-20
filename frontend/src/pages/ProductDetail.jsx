@@ -21,11 +21,11 @@ function ProductDetail() {
     
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
         setProduct(response.data);
         
         // Fetch related products (same category)
-        const relatedResponse = await axios.get(`http://localhost:5000/api/products`);
+        const relatedResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         const related = relatedResponse.data
           .filter(p => p.category === response.data.category && p._id !== response.data._id)
           .slice(0, 4); // Show up to 4 related products
@@ -45,7 +45,7 @@ function ProductDetail() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/cart', { withCredentials: true });
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, { withCredentials: true });
         const items = response.data.items.map(item => ({
           id: item._id,
           productId: item.product?._id,
@@ -63,7 +63,7 @@ function ProductDetail() {
     setCartMessage('');
     try {
       await axios.post(
-        'http://localhost:5000/api/cart/add',
+        `${import.meta.env.VITE_API_URL}/api/cart/add`,
         { productId: id, quantity },
         { withCredentials: true }
       );

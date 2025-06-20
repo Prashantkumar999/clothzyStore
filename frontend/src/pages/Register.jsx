@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Register.css";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -29,8 +29,9 @@ function Register() {
     }
 
     try {
+      console.log(import.meta.env.VITE_API_URL);
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
         {
           name: formData.name,
           email: formData.email,
@@ -38,7 +39,7 @@ function Register() {
         },
         { withCredentials: true }
       );
-      if(response.status===201){
+      if (response.status === 201) {
         navigate("/login");
       }
     } catch (error) {

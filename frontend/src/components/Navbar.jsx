@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCartIcon, UserIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  ShoppingCartIcon,
+  UserIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import authStore from "../store/store.js";
 import { cartStore } from "../store/store.js";
-import "./Navbar.css"; 
+import "./Navbar.css";
 import axios from "axios";
 
 function Navbar() {
@@ -36,7 +41,7 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        `${import.meta.env.VITE_API_URL}/api/auth/logout`,
         {},
         { withCredentials: true }
       );
@@ -70,7 +75,11 @@ function Navbar() {
 
           <div className="navbar-right">
             {currentUser && (
-              <Link to="/cart" className="navbar-link cart-icon" style={{ position: 'relative' }}>
+              <Link
+                to="/cart"
+                className="navbar-link cart-icon"
+                style={{ position: "relative" }}
+              >
                 <ShoppingCartIcon className="icon" />
                 {cartCount > 0 && (
                   <span className="cart-count">{cartCount}</span>
@@ -79,7 +88,11 @@ function Navbar() {
             )}
 
             {currentUser ? (
-              <div className="relative" ref={dropdownRef} style={{ position: 'relative' }}>
+              <div
+                className="relative"
+                ref={dropdownRef}
+                style={{ position: "relative" }}
+              >
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="navbar-link"
@@ -110,7 +123,7 @@ function Navbar() {
               </Link>
             )}
 
-            <button 
+            <button
               className="mobile-menu-button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -123,14 +136,30 @@ function Navbar() {
           </div>
         </div>
 
-        <div className={`mobile-nav-links ${mobileMenuOpen ? 'mobile-menu-open' : ''}`}>
-          <Link to="/products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+        <div
+          className={`mobile-nav-links ${
+            mobileMenuOpen ? "mobile-menu-open" : ""
+          }`}
+        >
+          <Link
+            to="/products"
+            className="mobile-nav-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Products
           </Link>
-          <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            to="/about"
+            className="mobile-nav-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             About
           </Link>
-          <Link to="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            to="/contact"
+            className="mobile-nav-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Contact
           </Link>
         </div>

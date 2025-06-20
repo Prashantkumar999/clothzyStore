@@ -92,7 +92,7 @@ function EditProductModal({ isOpen, onClose, product, onUpdate }) {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/products/${product._id}`,
+        `${import.meta.env.VITE_API_URL}/api/products/${product._id}`,
         { ...formData, image: imageUrl },
         { withCredentials: true }
       );
@@ -245,7 +245,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/users", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users`, {
         withCredentials: true,
       });
       setUsers(res.data);
@@ -253,7 +253,7 @@ function AdminDashboard() {
   };
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`, {
         withCredentials: true,
       });
       setProducts(res.data);
@@ -261,7 +261,7 @@ function AdminDashboard() {
   };
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/orders", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`, {
         withCredentials: true,
       });
       setOrders(res.data);
@@ -293,7 +293,7 @@ function AdminDashboard() {
         return;
       }
       const response = await axios.post(
-        "http://localhost:5000/api/products",
+        `${import.meta.env.VITE_API_URL}/api/products`,
         { ...formData, image: imageUrl },
         { withCredentials: true }
       );
@@ -328,7 +328,7 @@ function AdminDashboard() {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/products/${deleteModal.productId}`,
+        `${import.meta.env.VITE_API_URL}/api/products/${deleteModal.productId}`,
         { withCredentials: true }
       );
       setSuccess("Product deleted successfully!");

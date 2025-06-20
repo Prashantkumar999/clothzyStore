@@ -13,7 +13,7 @@ function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         // Get 10 products for the home page
         setProducts(response.data.slice(0, 10));
         setLoading(false);

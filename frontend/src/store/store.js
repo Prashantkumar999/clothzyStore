@@ -24,7 +24,7 @@ export const cartStore = create((set) => ({
   setCartCount: (count) => set({ cartCount: count }),
   fetchAndSetCartCount: async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/cart", { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, { withCredentials: true });
       const items = response.data.items || [];
       const count = items.length; // number of different products
       set({ cartCount: count });

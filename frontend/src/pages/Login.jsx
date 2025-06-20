@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 import authStore from "../store/store.js";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -23,8 +23,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(import.meta.env.VITE_API_URL);
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         formData,
         { withCredentials: true }
       );
@@ -104,7 +105,7 @@ function Login() {
           </div>
         </form>
       </div>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }

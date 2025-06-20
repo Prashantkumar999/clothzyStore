@@ -18,7 +18,7 @@ function Products() {
     if (!currentUser) return;
     
     try {
-      const response = await axios.get('http://localhost:5000/api/cart', { withCredentials: true });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, { withCredentials: true });
       const items = response.data.items.map(item => ({
         id: item._id,
         productId: item.product?._id,
@@ -36,7 +36,7 @@ function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         setProducts(response.data);
         setLoading(false);
       } catch (error) {
@@ -62,7 +62,7 @@ function Products() {
     setCartMessage('');
     try {
       await axios.post(
-        'http://localhost:5000/api/cart/add',
+        `${import.meta.env.VITE_API_URL}/api/cart/add`,
         { productId, quantity: 1 },
         { withCredentials: true }
       );

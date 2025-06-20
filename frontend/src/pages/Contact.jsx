@@ -28,7 +28,7 @@ function Contact() {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/contact`, formData);
       setStatus({
         type: 'success',
         message: 'Message sent successfully! We will get back to you soon.'
