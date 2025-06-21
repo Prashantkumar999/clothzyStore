@@ -72,7 +72,6 @@ router.post("/login", async (req, res) => {
     }
 
     // Create JWT token
-    console.log(process.env.secret);
     const token = jwt.sign({ userId: user._id }, process.env.secret, {
       expiresIn: "1d",
     });
@@ -99,7 +98,6 @@ router.post("/login", async (req, res) => {
 
 // Logout route
 router.post("/logout", (req, res) => {
-  console.log("logout called");
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

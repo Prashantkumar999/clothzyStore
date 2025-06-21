@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import authStore from "../src/store/store.js";
 import Protected from "./components/Protected";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const currentUser = authStore((store) => store.currentUser);
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <Navbar />
         <main className="container mx-auto px-4 py-8 flex-grow">

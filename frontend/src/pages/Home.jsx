@@ -13,8 +13,7 @@ function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
-        // Get 10 products for the home page
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`, { timeout: 30000 });
         setProducts(response.data.slice(0, 10));
         setLoading(false);
       } catch (error) {

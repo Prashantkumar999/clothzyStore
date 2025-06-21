@@ -48,6 +48,17 @@
   color: #ffffff;
 }
 
+.footer-links li a {
+  color: #a0a0a0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
 .social-links {
   display: flex;
   gap: 1rem;
