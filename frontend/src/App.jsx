@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProductDetail from "./pages/ProductDetail";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
 import authStore from "../src/store/store.js";
 import Protected from "./components/Protected";
 import ScrollToTop from "./components/ScrollToTop";
@@ -46,6 +47,10 @@ function App() {
             />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
+            <Route
+              path="/profile"
+              element={currentUser ? <Profile /> : <Navigate to="/login" />}
+            />
             <Route
               path="/admin"
               element={isAdmin() ? <AdminDashboard /> : <Home />}

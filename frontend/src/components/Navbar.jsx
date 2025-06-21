@@ -102,6 +102,13 @@ function Navbar() {
 
                 {dropdownOpen && (
                   <div className="dropdown-menu">
+                    <Link
+                      to="/profile"
+                      className="dropdown-item"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Profile
+                    </Link>
                     {currentUser.role === "admin" && (
                       <Link
                         to="/admin"
